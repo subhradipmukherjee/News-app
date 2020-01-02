@@ -1,0 +1,152 @@
+
+<ion-header >
+  <ion-navbar no-border-bottom>
+    <ion-title style="text-align: center;background: black;">
+      <h4 style="color: white;">Newsreader</h4>
+    </ion-title>
+    <ion-segment [(ngModel)]="title" color="default" style="background: black;">
+      <ion-segment-button value="Top Stories" >
+      <button ion-button (click)="topstories()" color="default" clear>
+        Top Stories
+      </button>
+      </ion-segment-button>
+      <ion-segment-button value="Articles">
+        <button ion-button  color="default" clear (click)="articles()" >
+          Source
+        </button>
+      </ion-segment-button>
+      <ion-segment-button value="Specific search">
+        <button ion-button  color="default" clear style="margin-left: -15%;" (click)="specific()">
+          Sports/Other
+        </button>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div [ngSwitch]="title">
+    <ion-list *ngSwitchCase="'Top Stories'" no-lines>
+      <div *ngIf="detail">
+        <ion-item *ngFor="let i of items">
+        <ion-card >
+
+          <img src={{detail.articles[i].urlToImage}}/>
+      
+          <ion-card-content>
+            <ion-card-title class="nowrap">
+              {{detail.articles[i].title}}
+            </ion-card-title>
+            
+          <a href="{{detail.articles[i].url}}" style="text-decoration:none;">
+            <p class="nowrap">
+              {{detail.articles[i].content}}  
+            </p>
+          </a>
+          <br>
+          <ion-row>
+            <ion-col style="text-align: left;">
+             Source: {{detail.articles[i].source.name}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: left;margin-top: -3%;">
+             Publish Date: {{detail.articles[i].publishedAt}}
+            </ion-col>
+          </ion-row>
+         </ion-card-content>
+        </ion-card>
+      </ion-item>
+      </div>
+      
+      
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'Articles'" no-lines>
+      <ion-item>
+        <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+        <button ion-button (click)="getval()" color="default" block>Go</button>
+      </ion-item>
+      <div *ngIf="detail.totalResults">
+        <ion-item *ngFor="let i of items">
+        <ion-card >
+
+          <img src={{detail.articles[i].urlToImage}}/>
+      
+          <ion-card-content>
+            <ion-card-title class="nowrap">
+              {{detail.articles[i].title}}
+            </ion-card-title>
+            
+          <a href="{{detail.articles[i].url}}" style="text-decoration:none;">
+            <p class="nowrap">
+              {{detail.articles[i].content}}  
+            </p>
+          </a>
+          <br>
+          <ion-row>
+            <ion-col style="text-align: left;">
+             Source: {{detail.articles[i].source.name}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: left;margin-top: -3%;">
+             Publish Date: {{detail.articles[i].publishedAt}}
+            </ion-col>
+          </ion-row>
+         </ion-card-content>
+        </ion-card>
+      </ion-item>
+      </div>
+      <div style="text-align: center;margin-top:5%;font-size: 2em;">
+        <strong>Total Results: {{detail.totalResults}}</strong>
+      </div>
+     
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'Specific search'">
+      <ion-item>
+        <ion-searchbar (ionInput)="getItems2($event)"></ion-searchbar>
+        <button ion-button (click)="getval2()" color="default" block>Go</button>
+      </ion-item>
+      <div *ngIf="detail.totalResults">
+        <ion-item *ngFor="let i of items">
+        <ion-card >
+
+          <img src={{detail.articles[i].urlToImage}}/>
+      
+          <ion-card-content>
+            <ion-card-title class="nowrap">
+              {{detail.articles[i].title}}
+            </ion-card-title>
+            
+          <a href="{{detail.articles[i].url}}" style="text-decoration:none;">
+            <p class="nowrap">
+              {{detail.articles[i].content}}  
+            </p>
+          </a>
+          <br>
+          <ion-row>
+            <ion-col style="text-align: left;">
+             Source: {{detail.articles[i].source.name}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="text-align: left;margin-top: -3%;">
+             Publish Date: {{detail.articles[i].publishedAt}}
+            </ion-col>
+          </ion-row>
+         </ion-card-content>
+        </ion-card>
+      </ion-item>
+      </div>
+      <div style="text-align: center;margin-top:5%;font-size: 2em;">
+        <strong>Total Results: {{detail.totalResults}}</strong>
+      </div>
+    </ion-list>
+  </div>
+  <ion-infinite-scroll on-infinite="load()" distance="1%"></ion-infinite-scroll>
+</ion-content>
+
+
